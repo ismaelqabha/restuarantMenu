@@ -1,22 +1,17 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, ScrollView, StyleSheet} from 'react-native';
 
-import CardComp from '../../cardComponent';
-import React, { useState } from 'react';
-
+import CardComp from '../components/cardComponent';
+import React, {useContext, useState} from 'react';
+import {calcAmount} from '../utils/utils';
+import MenuContext from '../../store/menuContext';
 
 const page2 = () => {
-
+  const {total} = useContext(MenuContext);
   const [supmited, setSupmited] = useState(false);
 
   const onPressHandler = () => {
     setSupmited(!supmited);
-
-  }
+  };
   const renderCards = () => {
     const arr = [
       {
@@ -39,36 +34,28 @@ const page2 = () => {
         src: require('../../assets/hotdog.png'),
         value: 10,
       },
-    ]
+    ];
 
     const cardsArray = arr.map(card => {
-      return <CardComp onPressFunction={onPressHandler} {...card} />
-    })
+      return <CardComp onPressFunction={onPressHandler} {...card} />;
+    });
     return cardsArray;
-  }
-
+  };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       {renderCards()}
       <View style={styles.card}>
-        <Text style={styles.Amounttext}>Amount: </Text>
-        <Text style={styles.Amounttext}>00 </Text>
+        <Text style={styles.Amounttext}>{'Amount: ' + calcAmount(total)}</Text>
       </View>
     </ScrollView>
-  )
-
-
-
-}
+  );
+};
 const styles = StyleSheet.create({
   container: {
-
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   Amounttext: {
     fontWeight: 'bold',
@@ -77,7 +64,6 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
   },
-
 });
 
 export default page2;
